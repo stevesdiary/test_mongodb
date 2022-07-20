@@ -5,8 +5,8 @@ async function find(client, nameOfListing) {
 
    client.db("sample_airbnb").collection("listingsAndReviews").find(
       {
-         bedrooms: { $gte: 2 },
-         bathrooms: { $gte: 2 }
+         bedrooms: { $gte: 3 },
+         bathrooms: { $gte: 3 }
       }
    )
 };

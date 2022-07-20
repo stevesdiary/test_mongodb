@@ -1,7 +1,11 @@
 const { MongoClient } = require("mongodb");
+const mongoose = require('mongoose');
+const routes = require('./routes');
+
+
 const express = require("express");
 // Replace the uri string with your connection string.
-const uri = "mongodb+srv://<username>:<password>@newp.smkqs.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://project:123abc@newp.smkqs.mongodb.net/?retryWrites=true&w=majority";
 
 const client = new MongoClient(uri);
 
@@ -64,13 +68,26 @@ async function findOneListingByName(client, nameOfListing){
 
 // findOne({ name: nameOfListing})
 
-await findOneListingByName(client, "Amazing View");
+await findOneListingByName(client, "Mountain Views");
 
+
+async function findOneListingByNumberOfRoom(client, numberOfRooms){
+   const result = await client.db("sample_airbnb").collection("listingsAndReviews").findOne({ bedrooms: numberOfRooms});
+   if (result) {
+      console.log(`Found a listing in the collection with the number of rooms '${numberOfRooms}':`);
+      console.log(result);
+   } else {
+      console.log(`No listings found with the number of rooms '${numberOfRooms}'`);
+   }
+
+}
+await findOneListingByNumberOfRoom(client, 5 );
 
    } finally {
     // Ensures that the client will close when you finish/error
       await client.close();
    }
 }
+
 
 run().catch(console.dir);
